@@ -1,18 +1,18 @@
 # NOAA Fish Finding
-
+Perform object detection technique like faster-RCNN and SSD to the 2018 CVPR workshop and challenge: Automated Analysis of Marine Video for Environmental Monitoring
 ## Table of Contents
-- <a href='##Introduction'>Introduction</a>
-- <a href='#Prerequisites'>Prerequisites</a>
-- <a href='#Installation'>Installation</a>
-- <a href='#Setup Data'>Setup Data</a>
-- <a href='#Training'>Training</a>
-- <a href='#Testing'>Testing</a>
-- <a href='#Demo'>Demo</a>
-- <a href='#references'>Reference</a>
+- <a href='#introduction'>Introduction</a>
+- <a href='#prerequisites'>Prerequisites</a>
+- <a href='#installation'>Installation</a>
+- <a href='#prepare-data'>Prepare Data</a>
+- <a href='#training'>Training</a>
+- <a href='#testing'>Testing</a>
+- <a href='#demo'>Demo</a>
+- <a href='#reference'>Reference</a>
 
 ## Introduction
 ### Overview
-This data challenge is a workshop in 2018 CVPR. Large amounts of image data have been collected and annotated by the National Oceanic and Atmospheric Administration (NOAA) from a a variety of image and video underwater.
+This data challenge is a workshop in 2018 CVPR, with large amounts of image data have been collected and annotated by the National Oceanic and Atmospheric Administration (NOAA) from a a variety of image and video underwater.
 
 [workshop website](http://www.viametoolkit.org/cvpr-2018-workshop-data-challenge/)
 ### Datasets
@@ -24,12 +24,12 @@ The data releases are comprised of images and annotations from five different da
 - MBARI: mbari_seq0
 - NWFSC: nwfsc_seq0
 
-Each dataset contains different types of imagery — different lighting conditions, camera angles, and wildlife. The data released depends on the nature of the data in the entire dataset.
+Each dataset contains different lighting conditions, camera angles, and wildlife. The data released depends on the nature of the data in the entire dataset.
 
 [Datasets detail](http://www.viametoolkit.org/cvpr-2018-workshop-data-challenge/challenge-data-description/)
 
 ### Scoring
-The challenge will evaluate accuracy in detection and classification, following the format in the [MSCOCO Detection Challenge](http://cocodataset.org/#detection-2017), for **bounding box** output. 
+The challenge will evaluate accuracy in **detection** and **classification**, following the format in the [MSCOCO Detection Challenge](http://cocodataset.org/#detection-2017), for **bounding box** output. 
 The annotations for scoring are bounding boxes around every animal, with a species classification label for each.
 
 ## Prerequisites
@@ -67,20 +67,50 @@ Update your -arch in setup script to match your GPU
 
 4. bulid Faster-RCNN
 Build the Cython modules
-  ```Shell
-  make clean
-  make
+  ```
+  make clean && make
   cd ..
   ```
 
+## Prepare Data
+1. download training and testing data 
 
-## Setup Data
-Download [Training data](https://challenge.kitware.com/girder#collection/5a722b2c56357d621cd46c22/folder/5ada227756357d4ff856f54d) (270.7 GB)
+- [Training data](https://challenge.kitware.com/girder#collection/5a722b2c56357d621cd46c22/folder/5ada227756357d4ff856f54d) (270.7 GB)
 
-Download [Testing data](https://challenge.kitware.com/girder#item/5af21e0f56357d4ff85723d6) (272.1 GB)
+- [Testing data](https://challenge.kitware.com/girder#item/5af21e0f56357d4ff85723d6) (272.1 GB)
 
+2. unzip both tars, it should have this basic structure
+```
+$annotations/             # annotation root directory
+$annotations/habcam_seq0_training.mscoco.json
+$annotations/mbari_seq0_training.mscoco.json
+$annotations/mouss_seq0_training.mscoco.json
+$annotations/mouss_seq1_training.mscoco.json
+$annotations/...
+```
 
-  
+```
+$imagery/                  # image root directory
+$imagery/habcam_seq0/
+$imagery/mbari_seq0/
+$imagery/mouss_seq0/
+$imagery/mouss_seq1/
+$imagery/...
+```
+3. Create symlinks for the NOAA dataset
+```
+cd $NOAA-fish-finding/data/VOCdevkit2007
+mkdir -p habcam_seq0
+ln -s $imagery/habcam_seq0/ habcam_seq0/PNGImages
+mkdir mbari_seq0
+ln -s $imagery/mbari_seq0/ mbari_seq0/PNGImages
+...
+```
+
+4. Prepare training annotation files
+```
+python3 jsonParser.py --dataset [DATASET] --anno_path [PATH]
+```
 ## Training
 - for Faster-RCNN
 ```
@@ -140,7 +170,8 @@ predict: only plot prediction
 both: ground truth and prediction
 ```
 
-Detection Snapshot:
+### Detection Snapshot
+
 ![Imgur](https://i.imgur.com/taxCKzh.png)
 ![Imgur](https://i.imgur.com/11R8K7i.png)
 ![Imgur](https://i.imgur.com/oaev5Kr.png)

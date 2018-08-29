@@ -12,6 +12,7 @@ import numpy as np
 
 def generate_txt(dataset, fnames = None):
     DIR = osp.join('/home/iis/Desktop/NOAA_VOCdevkit', dataset)
+    if osp.join(DIR, 'Main')
 
     if fnames == None:
         anno_path = osp.join(DIR, 'Annotations')

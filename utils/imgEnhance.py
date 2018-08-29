@@ -16,6 +16,8 @@ def ArgumentParser():
 def enhance(mode, img_path):
     fnames = os.listdir(img_path.replace('PNGImages', 'Annotations'))
     OUT_PATH = img_path.replace('PNGImages', 'JPEGImages')
+    if not os.path.exists:
+        os.mkdir(OUT_PATH)
     total_mean = []
     for idx, fname in enumerate(fnames):
         print('enhance image{:5d}/{}'.format(idx+1, len(fnames)), end="\r")

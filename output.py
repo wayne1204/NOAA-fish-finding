@@ -8,14 +8,18 @@ PATH = '/home/iis/Desktop/tf-faster-rcnn/data/NOAA/Training Data Release/annotat
 # TEST_PATH = '/media/share33/Database/NOAA Fish Finding/Test Data/test_data'
 TEST_PATH = '/home/iis/Desktop/tf-faster-rcnn/data/demo'
 
+
 def ArgumentParser():
     parser = argparse.ArgumentParser(description='Parse json file')
     parser.add_argument(
         '--train_set', choices=['mouss_seq0', 'mouss_seq1', 'mbari_seq0', 'habcam_seq0', 'nwfsc_seq0', 'afsc_seq0'])
     parser.add_argument('--test_set', help='testing set')
-    parser.add_argument('--img_dict', default='fpaths_to_ids.json', help='image id mapping')
-    parser.add_argument('--output_dir', default='/home/iis/Desktop/NOAA_VOCdevkit/result')
+    parser.add_argument(
+        '--img_dict', default='fpaths_to_ids.json', help='image id mapping')
+    parser.add_argument(
+        '--output_dir', default='/home/iis/Desktop/NOAA_VOCdevkit/result')
     return parser.parse_args()
+
 
 args = ArgumentParser()
 
@@ -26,7 +30,7 @@ def parseCategory(train_set):
     with open(train_anno) as f:
         data = json.load(f)
         for item in data['categories']:
-            category_dict[item[name]] = item[id]
+            category_dict[item['name']] = item['id']
     return category_dict
 
 
@@ -41,7 +45,6 @@ def parseImgDict(path):
     total_img['mouss4'] = {}
     total_img['mouss5'] = {}
     total_img['nwfsc'] = {}
-
 
     with open(path) as f:
         data = json.load(f)
@@ -62,7 +65,7 @@ def parseImg(data_root):
 
     for cnt, fname in enumerate(fnames):
         img = {}
-        
+
         img['id'] = cnt + 1
         img['file_name'] = fname
         img["width"] = ss[1]
@@ -72,6 +75,7 @@ def parseImg(data_root):
     data_root['image'] = total_img
     return fnames
 
+
 def parseAnnotation(data_root, testset, img_dict, category):
     path = '/home/iis/Desktop/tf-faster-rcnn'
     with open(osp.join(path, testset + '_result.txt')) as f:
@@ -80,7 +84,7 @@ def parseAnnotation(data_root, testset, img_dict, category):
             _object = {}
             aa = a.split()
 
-            # image & category id 
+            # image & category id
             _object["image_id"] = img_dict[aa[0]]
             _object["category_id"] = category[aa[1]]
 
@@ -99,7 +103,8 @@ category = parseCategory(args.train_set)
 img_dict = parseImgDict(args.img_dict)
 # imgs = parseImg(data_root)
 if args.train_set in ['mouss_seq0', 'mouss_seq1', 'mbari_seq0', 'habcam_seq0']:
-    parseAnnotation(data_root, args.test_set, img_dict[args.testset], category)
+    parseAnnotation(data_root, args.test_set,
+                    img_dict[args.test_set], category)
 
 with open(osp.join(args.output_dir, args.test_set + '.mscoco.json'), 'w') as f:
     json.dump(data_root, f, indent=4)

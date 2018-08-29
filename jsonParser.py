@@ -16,12 +16,12 @@ def ArgumentParser():
     parser = argparse.ArgumentParser(description='Parse json annotations file and convert to VOC style')
     parser.add_argument('--dataset', choices=['mouss_seq0', 'mouss_seq1', 'mbari_seq0', 'habcam_seq0'])
     parser.add_argument('--mode', choices=['original', 'contrast', 'equal'], help='image enhancement')
-    parser.add_argument('--output_dir', default='/home/iis/Desktop/NOAA_VOCdevkit')
+    parser.add_argument('--output_path', default='data/VOCdevkit2007')
+    parser.add_argument('--anno_path', help='training annotation files directory',
+        default='/home/iis/Desktop/tf-faster-rcnn/data/NOAA/Training Data Release/annotations/')
     return parser.parse_args()
 
-def getAnnotation(dataset):
-    # 'data/NOAA/Training Data Release/annotations/mouss_seq1_training.mscoco.json'
-    path = '/home/iis/Desktop/tf-faster-rcnn/data/NOAA/Training Data Release/annotations/'
+def getAnnotation(dataset, path):
     if args.dataset == 'mbari_seq0':
         train_anno = osp.join(path, '{}_new_training.mscoco.json'.format(dataset))
     else:
@@ -32,14 +32,12 @@ def getAnnotation(dataset):
 args = ArgumentParser()
 
 DATASET = args.dataset
-IMG_PATH = osp.join(args.output_dir, DATASET, 'PNGImages')
-XML_PATH = osp.join(args.output_dir, DATASET, 'Annotations')
-
-# XML_PATH ='data/VOCdevkit2007'
+IMG_PATH = osp.join(args.output_path, DATASET, 'PNGImages')
+XML_PATH = osp.join(args.output_path, DATASET, 'Annotations')
 if not os.path.exists(XML_PATH):
     os.mkdir(XML_PATH)
 
-train_anno = getAnnotation(DATASET)
+train_anno = getAnnotation(DATASET, args.anno_path)
 with open(train_anno) as f:
     data = json.load(f)
     category = [c['name'] for c in data['categories']]
@@ -89,7 +87,6 @@ for c, cnt in zip(category, category_count):
     if cnt != 0:
         print("{:^20}| {}".format(c, cnt))
 fnames = list(total_annotation.keys())
-# clone_path = '/home/iis/Desktop/tf-faster-rcnn/data/demo/habcam'
 
 for fname in fnames:
     is_save = True
