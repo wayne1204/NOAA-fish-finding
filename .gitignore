@@ -8,5 +8,6 @@ lib/pycocotools
 lib/pycocotools/_mask.c
 lib/pycocotools/_mask.so
 .idea
-/data
+data/bbox/*
+data/imagenet_weights/*
 /VOCdevkit

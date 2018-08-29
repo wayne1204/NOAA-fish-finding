@@ -11,12 +11,14 @@ import numpy as np
 #     return parser.parse_args()
 
 def generate_txt(dataset, fnames = None):
-    DIR = osp.join('/home/iis/Desktop/NOAA_VOCdevkit', dataset)
-    if osp.join(DIR, 'Main')
+    DIR = osp.join('data/VOCdevkit2007', dataset, 'ImageSets')
+    if not osp.exists(DIR):
+        os.mkdir(DIR)
+    if not osp.exists(osp.join(DIR, 'Main')):
+        os.mkdir(osp.join(DIR, 'Main'))
 
     if fnames == None:
-        anno_path = osp.join(DIR, 'Annotations')
-        fnames = os.listdir(anno_path)
+        fnames = os.listdir(DIR.replace('ImageSets', 'Annotations'))
         fnames = [fname.replace('.xml', '') for fname in fnames]
         if 'Thumbs.db' in fnames:
             fnames.remove('Thumbs.db')

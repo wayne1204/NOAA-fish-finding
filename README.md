@@ -40,9 +40,10 @@ The annotations for scoring are bounding boxes around every animal, with a speci
 
 ## Installation
 1. Clone the repository
-  ```
-  git clone https://github.com/endernewton/tf-faster-rcnn.git
-  ```
+```
+git clone https://github.com/wayne1204/NOAA-fish-finding.git
+```
+
 2. Download Pre-trained model
 ```
 sh data/scripts/setModel.sh
