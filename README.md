@@ -46,6 +46,7 @@ git clone https://github.com/wayne1204/NOAA-fish-finding.git
 
 2. Download Pre-trained model
 ```
+cd $NOAA-fish-finding
 sh data/scripts/setModel.sh
 ```
 
@@ -53,7 +54,7 @@ sh data/scripts/setModel.sh
 
 Update your -arch in setup script to match your GPU
   ```
-  cd tf-faster-rcnn/lib
+  cd lib
   # Change the GPU architecture (-arch) if necessary
   vim setup.py
   ```
@@ -67,6 +68,7 @@ Update your -arch in setup script to match your GPU
   | Tesla K80 (AWS p2.xlarge) | sm_37 |
 
 4. bulid Faster-RCNN
+
 Build the Cython modules
   ```
   make clean && make
@@ -110,7 +112,14 @@ ln -s $imagery/mbari_seq0/ mbari_seq0/PNGImages
 
 4. Prepare training annotation files
 ```
-python3 jsonParser.py --dataset [DATASET] --anno_path [PATH]
+python3 jsonParser.py --dataset [DATASET] --anno_path [PATH] --mode [MODE]
+
+# DATASET {mouss_seq0, mouss_seq1, mbari_seq0, habcam_seq0}
+# PATH: training annotation path root directory
+# MODE: image preprocess mode
+original: only conver png to jpg
+contrast: enhance constrst
+equal: preform CLAHE(Contrast Limit Adaptive Histogram Equalization)
 ```
 ## Training
 - for Faster-RCNN

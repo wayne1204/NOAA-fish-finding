@@ -32,20 +32,20 @@ def generate_txt(dataset, fnames = None):
     np.random.seed(5)
     np.random.shuffle(fnames)
 
-    with open(os.path.join(DIR, 'ImageSets', 'Main', 'train.txt'), 'w') as f:
+    with open(os.path.join(DIR, 'Main', 'train.txt'), 'w') as f:
         up_bound = math.floor(length * 0.8)
         f.write('\n'.join(fnames[:up_bound]))
 
-    with open(os.path.join(DIR, 'ImageSets', 'Main', 'val.txt'), 'w') as f:
+    with open(os.path.join(DIR, 'Main', 'val.txt'), 'w') as f:
         low_bound = math.floor(length * 0.8) 
         # up_bound = math.floor(length * 0.8)
         f.write('\n'.join(fnames[low_bound:]))
 
-    with open(os.path.join(DIR, 'ImageSets', 'Main', 'trainval.txt'), 'w') as f:
+    with open(os.path.join(DIR, 'Main', 'trainval.txt'), 'w') as f:
         up_bound = math.floor(length * 0.8)
         f.write('\n'.join(fnames))
 
-    with open(os.path.join(DIR, 'ImageSets', 'Main', 'test.txt'), 'w') as f:
+    with open(os.path.join(DIR, 'Main', 'test.txt'), 'w') as f:
         low_bound = math.floor(length * 0.8)
         f.write('\n'.join(fnames[low_bound:]))
 
