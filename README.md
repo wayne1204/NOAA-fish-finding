@@ -61,13 +61,20 @@ check [this](http://arnon.dk/matching-sm-architectures-arch-and-gencode-for-vari
   vim setup.py
   ```
 
-4. bulid Faster-RCNN
-
-Build the Cython modules
+4. bulid Faster-RCNN Cython modules
   ```
   make clean && make
   cd ..
   ```
+
+5. Install the Python COCO API. The code requires the API to access COCO dataset.
+```
+cd data
+git clone https://github.com/pdollar/coco.git
+cd coco/PythonAPI
+make
+cd ../../..
+```
 
 ## Prepare Data
 1. download training and testing data 

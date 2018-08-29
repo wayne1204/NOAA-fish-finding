@@ -15,7 +15,7 @@ EXTRA_ARGS=${array[@]:3:$len}
 EXTRA_ARGS_SLUG=${EXTRA_ARGS// /_}
 
 case ${DATASET} in 
-  mouss0)
+  mouss_seq0)
     TRAIN_IMDB="mouss_seq0_trainval"
     TEST_IMDB="mouss_seq0_test"
     STEPSIZE="[50000]"
@@ -23,7 +23,7 @@ case ${DATASET} in
     ANCHORS="[8,16,32]"
     RATIOS="[0.5,1,2]"
     ;;
-  mouss1)
+  mouss_seq1)
     TRAIN_IMDB="mouss_seq1_trainval"
     TEST_IMDB="mouss_seq1_test"
     STEPSIZE="[50000]"
@@ -31,7 +31,7 @@ case ${DATASET} in
     ANCHORS="[8,16,32]"
     RATIOS="[0.5,1,2]"
     ;;
-  mbari)
+  mbari_seq0)
     TRAIN_IMDB="mbari_seq0_trainval"
     TEST_IMDB="mbari_seq0_test"
     STEPSIZE="[50000]"
@@ -39,7 +39,7 @@ case ${DATASET} in
     ANCHORS="[4,16,32]"
     RATIOS="[0.5,1,2]"
     ;;
-  habcam)
+  habcam_seq0)
     TRAIN_IMDB="habcam_seq0_train"
     TEST_IMDB="habcam_seq0_test"
     STEPSIZE="[50000]"

@@ -8,7 +8,7 @@ from matplotlib import pyplot as plt
 def ArgumentParser():
     parser = argparse.ArgumentParser(description='Parse json file')
     parser.add_argument('--dataset', choices=['mouss_seq0', 'mouss_seq1', 'mbari_seq0', 'habcam_seq0'])
-    parser.add_argument('--mode', choices=['original', 'contrast', 'equal'])
+    parser.add_argument('--mode', choices=['original', 'contrast', 'equal'], default='original')
     parser.add_argument('--output_dir', default='data/VOCdevkit2007')
     return parser.parse_args()
 
