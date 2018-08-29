@@ -53,19 +53,13 @@ sh data/scripts/setModel.sh
 3. Update GPU arch
 
 Update your -arch in setup script to match your GPU
+
+check [this](http://arnon.dk/matching-sm-architectures-arch-and-gencode-for-various-nvidia-cards/) to match GPU architecture
   ```
   cd lib
   # Change the GPU architecture (-arch) if necessary
   vim setup.py
   ```
-
-  | GPU model    | Architecture |
-  | ------------- | ------------- |
-  | TitanX (Maxwell/Pascal) | sm_52 |
-  | GTX 960M | sm_50 |
-  | GTX 1080 (Ti) | sm_61 |
-  | Grid K520 (AWS g2.2xlarge) | sm_30 |
-  | Tesla K80 (AWS p2.xlarge) | sm_37 |
 
 4. bulid Faster-RCNN
 
@@ -103,16 +97,16 @@ $imagery/...
 3. Create symlinks for the NOAA dataset
 ```
 cd $NOAA-fish-finding/data/VOCdevkit2007
-mkdir -p habcam_seq0
-ln -s $imagery/habcam_seq0/ habcam_seq0/PNGImages
-mkdir mbari_seq0
-ln -s $imagery/mbari_seq0/ mbari_seq0/PNGImages
-...
+mkdir -p [DATASET]
+cd [DATASET]
+ln -s $imagery/[DATASET]/ PNGImages
+
+# DATASET {mouss_seq0, mouss_seq1, mbari_seq0, habcam_seq0}
 ```
 
-4. Prepare training annotation files
+4. Prepare training images & annotations
 ```
-python3 jsonParser.py --dataset [DATASET] --anno_path [PATH] --mode [MODE]
+python3 preprocess/jsonParser.py --dataset [DATASET] --anno_path [PATH] --mode [MODE]
 
 # DATASET {mouss_seq0, mouss_seq1, mbari_seq0, habcam_seq0}
 # PATH: training annotation path root directory

@@ -15,7 +15,7 @@ def ArgumentParser():
         '--train_set', choices=['mouss_seq0', 'mouss_seq1', 'mbari_seq0', 'habcam_seq0', 'nwfsc_seq0', 'afsc_seq0'])
     parser.add_argument('--test_set', help='testing set')
     parser.add_argument(
-        '--img_dict', default='fpaths_to_ids.json', help='image id mapping')
+        '--img_dict', default='data/fpaths_to_ids.json', help='image id mapping')
     parser.add_argument(
         '--output_dir', default='/home/iis/Desktop/NOAA_VOCdevkit/result')
     return parser.parse_args()

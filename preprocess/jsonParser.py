@@ -8,9 +8,9 @@ import xml.dom
 import xml.dom.minidom
 import numpy as np
 
-from utils.txtGenerator import generate_txt
-from utils.xmlGenerator import createRootNode, createObjectNode, writeXMLFile
-from utils.imgEnhance import enhance
+from txtGenerator import generate_txt
+from xmlGenerator import createRootNode, createObjectNode, writeXMLFile
+from imgEnhance import enhance
 
 def ArgumentParser():
     parser = argparse.ArgumentParser(description='Parse json annotations file and convert to VOC style')
