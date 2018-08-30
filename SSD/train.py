@@ -70,8 +70,8 @@ if not os.path.exists(args.save_folder):
     os.mkdir(args.save_folder)
 
 save_path = os.path.join(args.save_folder, str(args.ssd_size))
-if not os.path.exists('{}/{}'.format(save_path)):
-    os.mkdir(args.save_folder)
+if not os.path.exists(save_path):
+    os.mkdir(save_path)
 
 
 def train():
@@ -93,7 +93,7 @@ def train():
         print('Resuming training, loading {}...'.format(args.resume))
         ssd_net.load_weights(args.resume)
     else:
-        vgg_weights = torch.load('data/imagenet_weights' + args.basenet)
+        vgg_weights = torch.load('data/imagenet_weights/' + args.basenet)
         print('Loading base network...')
         ssd_net.vgg.load_state_dict(vgg_weights)
 

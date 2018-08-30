@@ -137,7 +137,7 @@ equal: preform CLAHE(Contrast Limit Adaptive Histogram Equalization)
 ```
 - for SSD 300/512
 ```
-$ python3 train.py --dataset [DATASET] --ssd_size [300/512]
+$ python3 SSD/train.py --dataset [DATASET] --ssd_size [300/512]
 
 # DATASET {mouss_seq0, mouss_seq1, mbari_seq0, habcam_seq0}
 ```
@@ -157,14 +157,11 @@ $ rm data/VOCdevkit2007/annotations_cache/*
 # NET in {vgg16, res50, res101, res152} is the network arch to use
 # DATASET {mouss_seq0, mouss_seq1, mbari_seq0, habcam_seq0} is defined in test_faster_rcnn.sh
 
-# Examples:
-./experiments/scripts/test_faster_rcnn.sh 0 mouss_seq1 vgg16
-./experiments/scripts/test_faster_rcnn.sh 1 mbari_seq0 res101
 ```
 
 - for SSD 300/512
 ```
-python eval.py --dataset [DATASET] --ssd_size [300/512]
+python SSD/eval.py --dataset [DATASET] --ssd_size [300/512]
 
 # DATASET {mouss_seq0, mouss_seq1, mbari_seq0, habcam_seq0}
 ```
