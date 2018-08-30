@@ -51,7 +51,7 @@ parser.add_argument('--gamma', default=0.1, type=float,
                     help='Gamma update for SGD')
 parser.add_argument('--visdom', default=False, type=str2bool,
                     help='Use visdom for loss visualization')
-parser.add_argument('--save_folder', default='weights/',
+parser.add_argument('--save_folder', default='output/',
                     help='Directory for saving checkpoint models')
 args = parser.parse_args()
 
@@ -68,6 +68,11 @@ else:
 
 if not os.path.exists(args.save_folder):
     os.mkdir(args.save_folder)
+
+save_path = os.path.join(args.save_folder, str(args.ssd_size))
+if not os.path.exists('{}/{}'.format(save_path)):
+    os.mkdir(args.save_folder)
+
 
 def train():
     cfg = voc[str(args.ssd_size)]
@@ -88,7 +93,7 @@ def train():
         print('Resuming training, loading {}...'.format(args.resume))
         ssd_net.load_weights(args.resume)
     else:
-        vgg_weights = torch.load(args.save_folder + args.basenet)
+        vgg_weights = torch.load('data/imagenet_weights' + args.basenet)
         print('Loading base network...')
         ssd_net.vgg.load_state_dict(vgg_weights)
 
@@ -169,8 +174,8 @@ def train():
 
             if iteration != 0 and iteration % 5000 == 0:
                 print('Saving state, iter:', iteration)
-                torch.save(ssd_net.state_dict(), 'weights/ssd{}_{}_{}.pth'.format(args.ssd_size, args.dataset, iteration))
-    torch.save(ssd_net.state_dict(), args.save_folder + 'ssd{}_{}.pth'.format(args.ssd_size, args.dataset))
+                torch.save(ssd_net.state_dict(), 'output/ssd{}/{}_{}.pth'.format(args.ssd_size, args.dataset, iteration))
+    torch.save(ssd_net.state_dict(), 'output/ssd{}/{}_final.pth'.format(args.ssd_size, args.dataset))
 
 
 def adjust_learning_rate(optimizer, gamma, step):

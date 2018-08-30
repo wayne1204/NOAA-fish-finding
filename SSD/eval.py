@@ -36,7 +36,9 @@ def str2bool(v):
 parser = argparse.ArgumentParser(
     description='Single Shot MultiBox Detector Evaluation')
 parser.add_argument('--ssd_size', default=300,
-                    type=int, help='SSD 300/512')    
+                    type=int, help='SSD 300/512')
+parser.add_argument('--dataset', default='habcam',
+                    type=str, help='NOAA dataset name')
 parser.add_argument('--path',
                     default='weights/ssd300_mAP_77.43_v2.pth', type=str,
                     help='Trained state_dict file path to open')
@@ -68,12 +70,12 @@ if torch.cuda.is_available():
 else:
     torch.set_default_tensor_type('torch.FloatTensor')
 
-annopath = os.path.join(args.voc_root, 'VOC2007', 'Annotations', '%s.xml')
-imgpath = os.path.join(args.voc_root, 'VOC2007', 'JPEGImages', '%s.png')
-imgsetpath = os.path.join(args.voc_root, 'VOC2007', 'ImageSets',
-                          'Main', '{:s}.txt')
+devkit_path = os.path.join(args.voc_root, args.dataset)
+annopath = os.path.join(devkit_path, 'Annotations', '%s.xml')
+imgpath = os.path.join(devkit_path, 'JPEGImages', '%s.png')
+imgsetpath = os.path.join(devkit_path, 'ImageSets', 'Main', '{:s}.txt')
+
 YEAR = '2007'
-devkit_path = args.voc_root + 'VOC' + YEAR
 dataset_mean = (104, 117, 123)
 set_type = 'test'
 
