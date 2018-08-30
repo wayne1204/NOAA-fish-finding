@@ -35,6 +35,8 @@ def str2bool(v):
 
 parser = argparse.ArgumentParser(
     description='Single Shot MultiBox Detector Evaluation')
+parser.add_argument('--ssd_size', default=300,
+                    type=int, help='SSD 300/512')    
 parser.add_argument('--path',
                     default='weights/ssd300_mAP_77.43_v2.pth', type=str,
                     help='Trained state_dict file path to open')
@@ -355,9 +357,8 @@ cachedir: Directory for caching the annotations
         tp = np.cumsum(tp)
         rec = tp / float(npos)
         prec = tp / np.maximum(tp + fp, np.finfo(np.float64).eps)
-        ap = voc_ap(rec, prec, use_07_metric)        # print('===================', ap, rec, prec)
+        ap = voc_ap(rec, prec, use_07_metric)        
     else:
-        #print('no object detect in class {}'.format(classname))
         rec = -1.
         prec = -1.
         ap = 0.
@@ -423,18 +424,18 @@ def test_net(save_folder, net, cuda, dataset, transform, top_k,
 if __name__ == '__main__':
     # load net
     num_classes = len(labelmap) + 1                      # +1 for background
-    net = build_ssd('test', 300, num_classes)            # initialize SSD
+    net = build_ssd('test', args.ssd_size, num_classes)            # initialize SSD
     net.load_state_dict(torch.load(args.path))
     net.eval()
     print('Finished loading model!')
     # load data
     dataset = VOCDetection(args.voc_root, [('2007', set_type)],
-                           BaseTransform(300, dataset_mean),
+                           BaseTransform(args.ssd_size, dataset_mean),
                            VOCAnnotationTransform())
     if args.cuda:
         net = net.cuda()
         cudnn.benchmark = True
     # evaluation
     test_net(args.save_folder, net, args.cuda, dataset,
-             BaseTransform(net.size, dataset_mean), args.top_k, 300,
+             BaseTransform(net.size, dataset_mean), args.top_k, args.ssd_size,
              thresh=args.confidence_threshold)

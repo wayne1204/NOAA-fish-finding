@@ -35,7 +35,7 @@ The annotations for scoring are bounding boxes around every animal, with a speci
 ## Prerequisites
 - Python 3+
 - Tensorflow >= 1.6.0
-- pytorch
+- pytorch == 0.3.0
 - Python package `cython`, `opencv-python`, `easydict`
 
 ## Installation

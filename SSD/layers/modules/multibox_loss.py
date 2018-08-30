@@ -61,7 +61,6 @@ class MultiBoxLoss(nn.Module):
         num = loc_data.size(0)
         priors = priors[:loc_data.size(1), :]
         num_priors = (priors.size(0))
-        num_classes = self.num_classes
 
         # match priors (default boxes) and ground truth boxes
         loc_t = torch.Tensor(num, num_priors, 4)
@@ -88,9 +87,6 @@ class MultiBoxLoss(nn.Module):
         loc_p = loc_data[pos_idx].view(-1, 4)
         loc_t = loc_t[pos_idx].view(-1, 4)
         loss_l = F.smooth_l1_loss(loc_p, loc_t, size_average=False)
-        #print('--- loss_l ---', loss_l.data[0])
-        #print('--- loc_p ---', loc_p.data)
-        #print('--- loc_t ---', loc_t.data)
 
 
         # Compute max conf across batch for hard negative mining

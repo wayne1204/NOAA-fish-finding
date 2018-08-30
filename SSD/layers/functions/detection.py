@@ -20,7 +20,7 @@ class Detect(Function):
         if nms_thresh <= 0:
             raise ValueError('nms_threshold must be non negative.')
         self.conf_thresh = conf_thresh
-        self.variance = cfg['variance']
+        self.variance = [0.1, 0.2]
 
     def forward(self, loc_data, conf_data, prior_data):
         """

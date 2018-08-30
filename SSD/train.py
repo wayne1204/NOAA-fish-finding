@@ -23,13 +23,15 @@ def str2bool(v):
 parser = argparse.ArgumentParser(
     description='Single Shot MultiBox Detector Training With Pytorch')
 train_set = parser.add_mutually_exclusive_group()
+parser.add_argument('--ssd_size', default=300,
+                    type=int, help='SSD 300/512')
 parser.add_argument('--dataset', default='habcam',
                     type=str, help='NOAA dataset name')
 parser.add_argument('--dataset_root', default=VOC_ROOT,
                     help='Dataset root directory path')
 parser.add_argument('--basenet', default='vgg16_reducedfc.pth',
                     help='Pretrained base model')
-parser.add_argument('--batch_size', default=32, type=int,
+parser.add_argument('--batch_size', default=4, type=int,
                     help='Batch size for training')
 parser.add_argument('--resume', default=None, type=str,
                     help='Checkpoint state_dict file to resume training from')
@@ -49,7 +51,7 @@ parser.add_argument('--gamma', default=0.1, type=float,
                     help='Gamma update for SGD')
 parser.add_argument('--visdom', default=False, type=str2bool,
                     help='Use visdom for loss visualization')
-parser.add_argument('--save_folder', default='output/ssd/',
+parser.add_argument('--save_folder', default='weights/',
                     help='Directory for saving checkpoint models')
 args = parser.parse_args()
 
@@ -68,10 +70,9 @@ if not os.path.exists(args.save_folder):
     os.mkdir(args.save_folder)
 
 def train():
-    cfg = voc
-    dataset = VOCDetection(root=args.dataset_root,
+    cfg = voc[str(args.ssd_size)]
+    dataset = VOCDetection(root=args.dataset_root, dataset_name=args.dataset,
                           transform=SSDAugmentation(cfg['min_dim'], MEANS))
-
     if args.visdom:
         import visdom
         viz = visdom.Visdom()
@@ -87,7 +88,7 @@ def train():
         print('Resuming training, loading {}...'.format(args.resume))
         ssd_net.load_weights(args.resume)
     else:
-        vgg_weights = torch.load('data/imagenet/' + args.basenet)
+        vgg_weights = torch.load(args.save_folder + args.basenet)
         print('Loading base network...')
         ssd_net.vgg.load_state_dict(vgg_weights)
 
@@ -113,7 +114,6 @@ def train():
     epoch = 0
     print('Loading the dataset...')
 
-    epoch_size = len(dataset) // args.batch_size
     print('Training SSD on:', dataset.name)
     print('Using the specified args:')
     print(args)
@@ -131,14 +131,14 @@ def train():
                                   shuffle=True, collate_fn=detection_collate,
                                   pin_memory=True)
     # create batch iterator
-    iter_datasets = len(dataset) // args.batch_size
-    print(len(dataset), iter_datasets)
-    epoch_size = cfg['max_iter'] // iter_datasets
+    n_batch = len(dataset) // args.batch_size
+    n_epoch = cfg['max_iter'] // n_batch
+    print(len(dataset), n_batch)
 
-    for epoch in range(0, epoch_size):
-        for i_batch, (images, targets) in enumerate(data_loader):
+    for epoch in range(n_epoch):
+        for batch, (images, targets) in enumerate(data_loader):
+            # print(epoch, batch)
             t0 = time.time()
-            iteration = epoch * iter_datasets + i_batch
 
             # images, targets = next(batch_iterator)
             images = Variable(images.cuda())
@@ -150,12 +150,14 @@ def train():
             optimizer.zero_grad()
             loss_l, loss_c = criterion(out, targets)
             loss = loss_l + loss_c
+
             loss.backward()
             optimizer.step()
             loc_loss += loss_l.data[0]
             conf_loss += loss_c.data[0]
             t1 = time.time()
             
+            iteration = epoch * n_batch + batch
             if iteration in cfg['lr_steps']:
                 step_index += 1
                 adjust_learning_rate(optimizer, args.gamma, step_index)
@@ -167,12 +169,8 @@ def train():
 
             if iteration != 0 and iteration % 5000 == 0:
                 print('Saving state, iter:', iteration)
-                torch.save(ssd_net.state_dict(), 'output/ssd300_{}_{}.pth'.format(args.dataset, iteration))
-
-        # print('==========[ Epoch {} / {} ]=========='.format(epoch, epoch_size))
-        # print('Total Loss: {:.4f} | Local loss: {:.4f} | Confidence loss: {:.4f}'.format(loss.data[0], loss_l.data[0], loss_c.data[0]))
-        # print('time: {:.4f}s ({} batches)'.format(t1 - t0, iter_datasets))
-    torch.save(ssd_net.state_dict(), args.save_folder + 'ssd300_' + args.dataset + '.pth')
+                torch.save(ssd_net.state_dict(), 'weights/ssd{}_{}_{}.pth'.format(args.ssd_size, args.dataset, iteration))
+    torch.save(ssd_net.state_dict(), args.save_folder + 'ssd{}_{}.pth'.format(args.ssd_size, args.dataset))
 
 
 def adjust_learning_rate(optimizer, gamma, step):
