@@ -58,9 +58,9 @@ class VOCAnnotationTransform(object):
         width (int): width
     """
 
-    def __init__(self, class_to_ind=None, keep_difficult=False):
+    def __init__(self, dataset, class_to_ind=None, keep_difficult=False):
         self.class_to_ind = class_to_ind or dict(
-            zip(VOC_CLASSES, range(len(VOC_CLASSES))))
+            zip(VOC_CLASSES[dataset], range(len(VOC_CLASSES[dataset]))))
         self.keep_difficult = keep_difficult
 
     def __call__(self, target, width, height):
@@ -115,13 +115,13 @@ class VOCDetection(data.Dataset):
 
     def __init__(self, root,
                  image_sets=[('2007', 'trainval')],
-                 transform=None, target_transform=VOCAnnotationTransform(),
+                 transform=None, target_transform=VOCAnnotationTransform(dataset_name),
                  dataset_name='VOC0712'):
+        self.name = dataset_name
         self.root = root
         self.image_set = image_sets
         self.transform = transform
         self.target_transform = target_transform
-        self.name = dataset_name
         self._annopath = osp.join('%s', 'Annotations', '%s.xml')
         self._imgpath = osp.join('%s', 'JPEGImages', '%s.jpg')
         self.ids = list()
