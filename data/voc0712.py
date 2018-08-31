@@ -19,23 +19,23 @@ else:
     import xml.etree.ElementTree as ET
 
 VOC_CLASSES = { 
-    mouss_seq0:(
+    'mouss_seq0':(
     'Carcharhiniformes', 'Animalia', 'Aplousobranchia', 'Cephalopoda',
     'Chordata', 'Decapoda', 'Echinodermata', 'Fish', 'Gadiformes', 'Gastropoda', 'Mollusca',
     'NonLiving', 'NotPleuronectiformes', 'Osmeriformes', 'Osteroida', 'Perciformes',
-    'Physical', 'Pleuronectiformes', 'Rajiformes', 'Scorpaeniformes', 'ignore')
-    mbari_seq0:(
+    'Physical', 'Pleuronectiformes', 'Rajiformes', 'Scorpaeniformes', 'ignore'),
+    'mbari_seq0':(
     'NonLiving', 'Scorpaeniformes', 'Pleuronectiformes', 
     'Echinodermata', 'Gadiformes', 'Perciformes', 'Animalia', 'Aplousobranchia',
     'Carcharhiniformes', 'Cephalopoda', 'Chordata', 'Decapoda', 'Fish', 
     'Gastropoda', 'Mollusca', 'NotPleuronectiformes', 'Osmeriformes',
-    'Osteroida', 'Physical', 'Rajiformes', 'ignore')
-    mouss_seq1:
+    'Osteroida', 'Physical', 'Rajiformes', 'ignore'),
+    'mouss_seq1':
     ('Perciformes', 'Animalia', 'Aplousobranchia', 'Carcharhiniformes', 'Cephalopoda', 'Chordata',
     'Decapoda', 'Echinodermata', 'Fish', 'Gadiformes', 'Gastropoda', 'Mollusca', 'NonLiving',
     'NotPleuronectiformes', 'Osmeriformes', 'Osteroida', 'Physical', 'Pleuronectiformes',
-    'Rajiformes', 'Scorpaeniformes', 'ignore')
-    habcam_seq0:
+    'Rajiformes', 'Scorpaeniformes', 'ignore'),
+    'habcam_seq0':
     ('Gastropoda', 'Osteroida', 'Cephalopoda', 'Decapoda', 'Aplousobranchia',
     'NotPleuronectiformes', 'Perciformes', 'Fish', 'Rajiformes', 'NonLiving', 'Pleuronectiformes',
     'Animalia', 'Carcharhiniformes', 'Chordata', 'Echinodermata', 'Gadiformes', 'Mollusca',
@@ -115,7 +115,7 @@ class VOCDetection(data.Dataset):
 
     def __init__(self, root,
                  image_sets=[('2007', 'trainval')],
-                 transform=None, target_transform=VOCAnnotationTransform(dataset_name),
+                 transform=None, target_transform=VOCAnnotationTransform(self.name),
                  dataset_name='VOC0712'):
         self.name = dataset_name
         self.root = root
