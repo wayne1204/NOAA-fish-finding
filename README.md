@@ -161,9 +161,10 @@ $ rm data/VOCdevkit2007/annotations_cache/*
 
 - for SSD 300/512
 ```
-python SSD/eval.py --dataset [DATASET] --ssd_size [300/512]
+python SSD/eval.py --dataset [DATASET] --ssd_size [300/512] --path [PATH]
 
 # DATASET {mouss_seq0, mouss_seq1, mbari_seq0, habcam_seq0}
+# PATH: model path
 ```
 ## Demo
 
@@ -180,6 +181,14 @@ predict: only plot prediction
 both: ground truth and prediction
 ```
 
+### Result
+| Dataset       |    method     | mAP    |
+| ------------- |:-------------:| -------: |
+| mouss_seq0    | Faster RCNN   | 0.989  |
+| mouss_seq1    | Faster RCNN   | 0.909  |
+| mbari_seq0    | Faster RCNN   | 0.8358 |
+| habcam_seq0   | Faster RCNN   | 0.4752 |
+- [full experiment](https://docs.google.com/spreadsheets/d/1G6TPobK1-KyfRd1W_TrfQW-g6h_eLwDHz9BWB_FWAwI/edit#gid=0)
 ### Detection Snapshot
 
 ![Imgur](https://i.imgur.com/taxCKzh.png)
