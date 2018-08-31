@@ -5,7 +5,7 @@ https://github.com/fmassa/vision/blob/voc_dataset/torchvision/datasets/voc.py
 
 Updated by: Ellis Brown, Max deGroot
 """
-from .config import HOME
+from .ssd_config import HOME
 import os.path as osp
 import sys
 import torch
@@ -18,29 +18,29 @@ if sys.version_info[0] == 2:
 else:
     import xml.etree.ElementTree as ET
 
-VOC_CLASSES = (  
-    # mouss0
+VOC_CLASSES = { 
+    mouss_seq0:(
     'Carcharhiniformes', 'Animalia', 'Aplousobranchia', 'Cephalopoda',
     'Chordata', 'Decapoda', 'Echinodermata', 'Fish', 'Gadiformes', 'Gastropoda', 'Mollusca',
     'NonLiving', 'NotPleuronectiformes', 'Osmeriformes', 'Osteroida', 'Perciformes',
     'Physical', 'Pleuronectiformes', 'Rajiformes', 'Scorpaeniformes', 'ignore')
-    # mbari
-    # 'NonLiving', 'Scorpaeniformes', 'Pleuronectiformes', 
-    # 'Echinodermata', 'Gadiformes', 'Perciformes', 'Animalia', 'Aplousobranchia',
-    # 'Carcharhiniformes', 'Cephalopoda', 'Chordata', 'Decapoda', 'Fish', 
-    # 'Gastropoda', 'Mollusca', 'NotPleuronectiformes', 'Osmeriformes',
-    # 'Osteroida', 'Physical', 'Rajiformes', 'ignore')
-    # mouss1
-    # 'Perciformes', 'Animalia', 'Aplousobranchia', 'Carcharhiniformes', 'Cephalopoda', 'Chordata',
-    # 'Decapoda', 'Echinodermata', 'Fish', 'Gadiformes', 'Gastropoda', 'Mollusca', 'NonLiving',
-    # 'NotPleuronectiformes', 'Osmeriformes', 'Osteroida', 'Physical', 'Pleuronectiformes',
-    # 'Rajiformes', 'Scorpaeniformes', 'ignore')
-    # habcam
-    # 'Gastropoda', 'Osteroida', 'Cephalopoda', 'Decapoda', 'Aplousobranchia',
-    # 'NotPleuronectiformes', 'Perciformes', 'Fish', 'Rajiformes', 'NonLiving', 'Pleuronectiformes',
-    # 'Animalia', 'Carcharhiniformes', 'Chordata', 'Echinodermata', 'Gadiformes', 'Mollusca',
-    # 'Osmeriformes', 'Physical', 'Scorpaeniformes', 'ignore')
-
+    mbari_seq0:(
+    'NonLiving', 'Scorpaeniformes', 'Pleuronectiformes', 
+    'Echinodermata', 'Gadiformes', 'Perciformes', 'Animalia', 'Aplousobranchia',
+    'Carcharhiniformes', 'Cephalopoda', 'Chordata', 'Decapoda', 'Fish', 
+    'Gastropoda', 'Mollusca', 'NotPleuronectiformes', 'Osmeriformes',
+    'Osteroida', 'Physical', 'Rajiformes', 'ignore')
+    mouss_seq1:
+    ('Perciformes', 'Animalia', 'Aplousobranchia', 'Carcharhiniformes', 'Cephalopoda', 'Chordata',
+    'Decapoda', 'Echinodermata', 'Fish', 'Gadiformes', 'Gastropoda', 'Mollusca', 'NonLiving',
+    'NotPleuronectiformes', 'Osmeriformes', 'Osteroida', 'Physical', 'Pleuronectiformes',
+    'Rajiformes', 'Scorpaeniformes', 'ignore')
+    habcam_seq0:
+    ('Gastropoda', 'Osteroida', 'Cephalopoda', 'Decapoda', 'Aplousobranchia',
+    'NotPleuronectiformes', 'Perciformes', 'Fish', 'Rajiformes', 'NonLiving', 'Pleuronectiformes',
+    'Animalia', 'Carcharhiniformes', 'Chordata', 'Echinodermata', 'Gadiformes', 'Mollusca',
+    'Osmeriformes', 'Physical', 'Scorpaeniformes', 'ignore')
+}
 # note: if you used our download scripts, this should be right
 VOC_ROOT = osp.join(HOME, "Desktop/NOAA-fish-finding/data/VOCdevkit2007/")
 
