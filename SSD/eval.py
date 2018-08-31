@@ -42,7 +42,7 @@ parser.add_argument('--dataset', default='habcam',
 parser.add_argument('--path',
                     default='weights/ssd300_mAP_77.43_v2.pth', type=str,
                     help='Trained state_dict file path to open')
-parser.add_argument('--save_folder', default='eval/', type=str,
+parser.add_argument('--save_folder', default='ssd_eval/', type=str,
                     help='File path to save results')
 parser.add_argument('--confidence_threshold', default=0.01, type=float,
                     help='Detection confidence threshold')
@@ -432,6 +432,7 @@ if __name__ == '__main__':
     print('Finished loading model!')
     # load data
     dataset = VOCDetection(args.voc_root, [('2007', set_type)],
+                           dataset_name=args.dataset,
                            BaseTransform(args.ssd_size, dataset_mean),
                            VOCAnnotationTransform())
     if args.cuda:

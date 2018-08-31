@@ -166,6 +166,8 @@ python SSD/eval.py --dataset [DATASET] --ssd_size [300/512]
 # DATASET {mouss_seq0, mouss_seq1, mbari_seq0, habcam_seq0}
 ```
 ## Demo
+
+put the tested image in the data/demo folder
 - for Faster RCNN
 ```
 python3 tools/demo.py --net [NET] --train_set [TRAIN]--test_set [TEST] --mode [predict/ both]

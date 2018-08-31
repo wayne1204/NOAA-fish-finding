@@ -2,7 +2,6 @@
 *.pyc
 *.lua
 tmp.xml
-output/
 
 tensorboard
 lib/build
@@ -11,9 +10,12 @@ lib/pycocotools/_mask.c
 lib/pycocotools/_mask.so
 .idea
 
-
+# data
 data/bbox/*
 data/imagenet_weights/*
 data/VOCdevkit2007/
 data/cache/
 data/coco/
+
+# output model
+output/
