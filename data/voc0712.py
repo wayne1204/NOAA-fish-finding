@@ -115,16 +115,17 @@ class VOCDetection(data.Dataset):
 
     def __init__(self, root,
                  image_sets=[('2007', 'trainval')],
-                 transform=None, target_transform=VOCAnnotationTransform(self.name),
+                 transform=None,
                  dataset_name='VOC0712'):
         self.name = dataset_name
         self.root = root
         self.image_set = image_sets
         self.transform = transform
-        self.target_transform = target_transform
+        self.target_transform = VOCAnnotationTransform(self.name)
         self._annopath = osp.join('%s', 'Annotations', '%s.xml')
         self._imgpath = osp.join('%s', 'JPEGImages', '%s.jpg')
         self.ids = list()
+        
 
         for (year, name) in image_sets:
             rootpath = osp.join(self.root, self.name)

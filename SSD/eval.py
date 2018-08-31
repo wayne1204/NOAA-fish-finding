@@ -433,7 +433,6 @@ if __name__ == '__main__':
     # load data
     dataset = VOCDetection(args.voc_root, [('2007', set_type)],
                            BaseTransform(args.ssd_size, dataset_mean),
-                           VOCAnnotationTransform(),
                            args.dataset)
     if args.cuda:
         net = net.cuda()
