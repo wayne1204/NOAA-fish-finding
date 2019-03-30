@@ -14,8 +14,8 @@ lib/pycocotools/_mask.so
 data/bbox/*
 data/imagenet_weights/*
 data/VOCdevkit2007/
-data/cache/
-data/coco/
+data/*
+SSD/data/*
 
 # output model
 output/
